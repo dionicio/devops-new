@@ -56,25 +56,25 @@
         } 
         stage('Build') { 
             steps {
-                kubernetes{    
+                 
                     script{
                      app = docker.build("dionicio1/hello-app")
                     }
-                }
+              
                
             }
         }
 
         stage('Push') {
             steps {
-                kubernetes{      
+                    
                 script{
                     docker.withRegistry('', 'DOCKER_HUB') {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("latest")
                     }
                 }    
-              }
+             
             }
         }
         
