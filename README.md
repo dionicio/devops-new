@@ -1,4 +1,4 @@
-This a CI/CD process applied to a spring boot app built with maven, for integration was used jenkins 
+This a CI/CD process applied to a spring boot app and built with maven, for integration was used jenkins 
 and deployed in aws eks.
 
 tools list
