@@ -1,0 +1,84 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-092207c2164bf94bb
+  directoryPerms: "700"
+  gidRangeStart: "1000"
+  gidRangeEnd: "2000"
+allowedTopologies:
+- matchLabelExpressions:
+  - key: failure-domain.beta.kubernetes.io/zone
+    values:
+    - us-east-1a  
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-092207c2164bf94bb
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: ebs-sc
+provisioner: ebs.csi.aws.com
+parameters:
+    type: gp2
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+allowedTopologies:
+- matchLabelExpressions:
+  - key: failure-domain.beta.kubernetes.io/zone
+    values:
+    - us-east-1a
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ebs-sc
+  resources:
+    requests:
+      storage: 4Gi
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "pv-claim"
+spec:
+  storageClassName: gp2
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "2Gi"

@@ -1,0 +1,93 @@
+ pipeline {
+
+      agent  {
+        
+        kubernetes {
+            yaml '''
+                    apiVersion: v1
+                    kind: Pod
+                    metadata:
+                      name: pod
+                      labels:
+                       some-label: pod
+                    spec:
+                      containers:
+                        - name: maven
+                          image: maven:3.8.3-openjdk-17
+                          command:
+                            - cat
+                          tty: true
+                          volumeMounts:
+                            - name: m2
+                              mountPath: /root/.m2
+                        - name: docker
+                          image: docker:19.03
+                          command: ["cat"] 
+                          tty: true
+                          volumeMounts:
+                            - name: dockersock
+                              mountPath: /var/run/docker.sock
+                      volumes:
+                        - name: dockersock
+                          hostPath:
+                            path: /var/run/docker.sock
+                        - name: m2
+                          hostPath:
+                            path: /root/.m2'''
+        }
+       
+       }
+
+        stages {
+           
+          stage('SCM') {
+               steps {
+                   
+                 git 'https://github.com/dionicio/devops'
+               }
+           }
+        stage('Package') {   
+          steps {
+           
+              container('maven') {
+                   sh 'mvn clean package'
+                 }
+          }  
+        } 
+        stage('Build') { 
+            steps {
+                kubernetes{    
+                    script{
+                     app = docker.build("dionicio1/hello-app")
+                    }
+                }
+               
+            }
+        }
+
+        stage('Push') {
+            steps {
+                kubernetes{      
+                script{
+                    docker.withRegistry('', 'DOCKER_HUB') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    }
+                }    
+              }
+            }
+        }
+        
+        stage('deploy') {
+            steps {
+                     
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'development', contextName: '', credentialsId: 'k8s_token', namespace: '', serverUrl: '']]) {
+                  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+                  sh 'chmod u+x ./kubectl'  
+                  sh './kubectl apply -f k8s/deployment.yaml'
+                 }
+                }    
+              
+            }
+        }    
+      }
