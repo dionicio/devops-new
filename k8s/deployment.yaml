@@ -13,7 +13,7 @@ spec:
         app: hello-app        
     spec:
       serviceAccount: 
-        serviceAccountName: jenkins
+      serviceAccountName: jenkins
       containers:
         - name: hello-app
           image: dionicio1/hello-app
