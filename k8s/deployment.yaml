@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: hello-app
+  serviceAccountName: jenkins      
     spec:
       containers:
         - name: hello-app
@@ -30,3 +31,4 @@ spec:
     - port: 80
       targetPort: 8080
   type: LoadBalancer
+  serviceAccountName: jenkins
