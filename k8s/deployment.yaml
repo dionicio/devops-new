@@ -7,11 +7,11 @@ spec:
   selector:
     matchLabels:
       app: hello-app
+  serviceAccountName: jenkins    
   template:
     metadata:
       labels:
-        app: hello-app
-  serviceAccountName: jenkins      
+        app: hello-app        
     spec:
       containers:
         - name: hello-app
