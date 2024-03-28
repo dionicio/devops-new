@@ -12,7 +12,6 @@ spec:
       labels:
         app: hello-app        
     spec:
-      serviceAccountName: jenkins
       containers:
         - name: hello-app
           image: dionicio1/hello-app
