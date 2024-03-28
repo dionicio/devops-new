@@ -12,6 +12,8 @@ spec:
       labels:
         app: hello-app        
     spec:
+      serviceAccount: 
+        serviceAccountName: jenkins
       containers:
         - name: hello-app
           image: dionicio1/hello-app
@@ -29,5 +31,3 @@ spec:
   ports:
     - port: 80
       targetPort: 8080
-  type: LoadBalancer
-  serviceAccountName: jenkins
