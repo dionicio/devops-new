@@ -12,16 +12,16 @@ spec:
       labels:
         app: hello-app
     spec:
-      containers:
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 10000
-          runAsGroup: 10000
+      containers:        
         - name: hello-app
           image: dionicio1/hello-app
           ports:
             - containerPort: 8080  
           imagePullPolicy: Always
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10000
+            runAsGroup: 10000
 ---
 apiVersion: v1
 kind: Service
