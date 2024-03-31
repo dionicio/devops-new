@@ -1,6 +1,4 @@
 controller:
-  image: "docker.io/dionicio1/jenkins"
-  tag: "latest"
   serviceType: LoadBalancer
   servicePort: 80
  # jenkinsUrl: http://localhost:8081
