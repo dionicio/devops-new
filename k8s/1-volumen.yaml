@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "pv-claim"
+spec:
+  storageClassName: gp2
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "2Gi"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "postgres-sql-claim"
+  namespace: sonar
+spec:
+  storageClassName: gp2
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "10Gi"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "sonarv-claim"
+  namespace: sonar
+spec:
+  storageClassName: gp2
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "10Gi"
