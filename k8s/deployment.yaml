@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: hello-app
@@ -33,4 +33,32 @@ spec:
   ports:
     - port: 80
       targetPort: 8080
-  type: LoadBalancer
+#  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-world-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /hello-app(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: hello-app-svc
+            port:
+              number: 80
+      - path: /hello-app-two(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: hello-app-svc
+            port:
+              number: 80
