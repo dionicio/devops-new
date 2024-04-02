@@ -1,3 +1,4 @@
+/*
 data "aws_iam_policy_document" "test_oidc_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
@@ -45,3 +46,4 @@ resource "aws_iam_role_policy_attachment" "test_attach" {
 output "test_policy_arn" {
   value = aws_iam_role.test_oidc.arn
 }
+*/

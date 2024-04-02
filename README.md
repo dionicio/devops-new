@@ -29,7 +29,7 @@ terraform apply
 aws eks update-kubeconfig --region us-east-1 --name deployment
 
 ---- configure volume --
-kubect apply -f volume k8s/volumen.yaml
+kubect apply -f volume k8s/1-volumen.yaml
 
 ----- add jenkins ---
 
@@ -38,10 +38,11 @@ helm repo update
 helm upgrade --install -f jenkins/values.yaml myjenkins jenkins/jenkins
 
 ----- add sonarqube ---
-helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
-helm repo update
-kubectl create namespace sonarqube
-helm upgrade --install -f sonar/values.yaml -n sonarqube sonarqube sonarqube/sonarqube
+kubectl apply -f 2-sonar-postgresql.yaml
+kubectl apply -f 3-sonarqube.yaml
+
+--  ingress controller
+helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
 
 
 -- configure jenkins --

@@ -1,3 +1,12 @@
+
+variable "cluster_name_dev" {
+  default = "development"
+  type = string
+  description = "AWS EKS CLuster Name"
+  nullable = false
+}
+
+
 resource "aws_iam_role" "development" {
   name = "eks-cluster-development"
 
@@ -22,12 +31,7 @@ resource "aws_iam_role_policy_attachment" "development-AmazonEKSClusterPolicy" {
   role       = aws_iam_role.development.name
 }
 
-variable "cluster_name_dev" {
-  default = "development"
-  type = string
-  description = "AWS EKS CLuster Name"
-  nullable = false
-}
+
 
 resource "aws_eks_cluster" "development" {
   name     = var.cluster_name_dev

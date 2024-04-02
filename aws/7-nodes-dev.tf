@@ -1,4 +1,5 @@
 
+
 resource "aws_eks_node_group" "private-nodes-dev" {
   cluster_name    = aws_eks_cluster.development.name
   node_group_name = "private-nodes-development"
@@ -34,4 +35,5 @@ resource "aws_eks_node_group" "private-nodes-dev" {
     aws_iam_role_policy_attachment.nodes-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
+
 
