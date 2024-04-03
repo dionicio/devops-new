@@ -19,33 +19,33 @@ steps:
 aws configure
 
 ---- create aws resources
-cd aws
-terraform init 
-terraform validate 
-terraform apply
+cd aws    
+terraform init  
+terraform validate  
+terraform apply 
 
--- connect to eks --
+-- connect to eks --  
 
-aws eks update-kubeconfig --region us-east-1 --name deployment
+aws eks update-kubeconfig --region us-east-1 --name deployment  
 
----- configure volume --
-kubect apply -f volume k8s/1-volumen.yaml
+---- configure volume --    
+kubect apply -f volume k8s/1-volumen.yaml   
 
------ add jenkins ---
+----- add jenkins --- 
 
-helm repo add jenkins https://charts.jenkins.io
-helm repo update
-helm upgrade --install -f jenkins/values.yaml myjenkins jenkins/jenkins
+helm repo add jenkins https://charts.jenkins.io   
+helm repo update    
+helm upgrade --install -f jenkins/values.yaml myjenkins jenkins/jenkins   
 
------ add sonarqube ---
-kubectl apply -f 2-sonar-postgresql.yaml
-kubectl apply -f 3-sonarqube.yaml
+----- add sonarqube ---   
+kubectl apply -f 2-sonar-postgresql.yaml    
+kubectl apply -f 3-sonarqube.yaml   
 
---  ingress controller
-helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+--  ingress controller    
+helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace   
 
 
--- configure jenkins --
+-- configure jenkins --   
 steps  
   add sonar server and scanner   
   configure development kubernetes   
@@ -53,4 +53,3 @@ steps
   configure docker hub    
   create jenkins pipeline located in folder "jenkins" file Jenkinfile   
   run jenkins job   
-  
