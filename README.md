@@ -46,10 +46,11 @@ helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.git
 
 
 -- configure jenkins --
-steps 
-  add sonar server and scanner
-  configure development kubernetes
-  configure git
-  configure docker hub
-  create jenkins pipeline located in folder "jenkins" file Jenkinfile
-  run jenkins job
+steps  
+  add sonar server and scanner   
+  configure development kubernetes   
+  configure git   
+  configure docker hub    
+  create jenkins pipeline located in folder "jenkins" file Jenkinfile   
+  run jenkins job   
+  
